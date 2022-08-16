@@ -64,16 +64,18 @@ class Parent extends React.Component {
     }
   }
   componentDidUpdate(p) {
-    console.log('update',p,this.props);
+    console.log('update', p, this.props);
   }
   componentWillUnmount() {
     console.log('unmount');
   }
+  componentDidMount() {
+    console.log('孙组件');
+  }
   render() {
     return (
-      <div>
-        {this.props.count}
-        <div onClick={(e) => {this.forceUpdate()}}>add</div>
+      <div id='grand'>
+        孙组件
       </div>
     )
   }
@@ -81,63 +83,58 @@ class Parent extends React.Component {
 
 const { Provider, Consumer } = React.createContext()
 
-function withMouse(WrappedComponent) {
-  class Mouse extends React.Component {
-    render() {
-      return <WrappedComponent {...this.state} />
-    }
-  }
-
-  return Mouse
-}
 
 class Mouse extends React.Component {
-  state = {
-    x: 0,
-    y: 0
-  }
-
-  handler = e => {
-    this.setState({
-      x: e.clientX,
-      y: e.clientY
-    })
-  }
-
   componentDidMount() {
-    window.addEventListener('mousemove', this.handler)
+    console.log('子组件');
   }
-
   render() {
     return (
-      this.props.render(this.state)
+      <div>
+        子组件
+        <Parent />
+      </div>
     )
   }
 }
 class App extends React.Component {
   constructor(props) {
     super(props)
+    let number = 1
+    let another = number
+    console.log('compare', number === another);
     this.state = {
       count: 0
     }
   }
+
+  add = () => {
+    this.setState({
+      count: this.state.count + 1
+    }, () => {
+      console.log(this.state.count);
+    })
+  }
+  add2 = () => {
+    this.setState((state, props) => {
+      return {
+        count: Math.ceil(Math.random() * 3)
+      }
+    })
+
+  }
   componentDidMount() {
-    console.log(3);
+    const ele = document.getElementById('grand')
+    console.log('父组件', ele);
   }
   render() {
-    console.log(2);
+    const element = <div>
+      父组件
+      <Mouse />
+    </div>
+    console.log(element);
     return (
-      <div id='title' onClick={() => {this.setState({count : this.state.count + 1})}}>
-      <Mouse render={data => <h1>x:{data.x}y:{data.y}</h1>} />
-      <Mouse render={data => <img src={img} alt='猫' style={{
-        position: 'absolute',
-        top: 0,
-        left: 0
-      }} />} />
-      {
-        this.state.count < 3 ? <Parent count={this.state.count} /> : <div>消失了</div>
-      }
-      </div>
+      element
     )
   }
 }
