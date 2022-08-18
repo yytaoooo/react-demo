@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { createRef,useEffect,useState } from 'react';
+import React, { createRef,useEffect,useState,Fragment } from 'react';
 import PropTypes from 'prop-types'
 import img from './logo.svg'
 
@@ -207,6 +207,24 @@ class App extends React.Component {
 App.propTypes = {
   name: PropTypes.string,
   fn: PropTypes.func.isRequired
+}
+
+function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null)
+
+  useEffect(() => {
+    function handleStatusChange(status) {
+      setIsOnline(status.isOnline)
+    }
+
+    ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange)
+
+    return () => {
+      ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange)
+    }
+  })
+
+  return isOnline
 }
 
 export default App;
