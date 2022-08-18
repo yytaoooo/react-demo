@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React from 'react';
+import React, { createRef,useEffect,useState } from 'react';
 import PropTypes from 'prop-types'
 import img from './logo.svg'
 
@@ -97,12 +97,74 @@ class Mouse extends React.Component {
     )
   }
 }
+
+const FancyButton = React.forwardRef((props, ref) => {
+  return (<button ref={ref} className='FancyButton'>
+  {props.children}
+</button>)
+})
+const ref = createRef()
+
+function Counter() {
+  const [count,setCount] = useState(0)
+  const [todos,setTodos] = useState([{id:1,text: 'toplay!!!'}])
+
+  useEffect(() => {
+    document.title = `click ${count} times`
+  })
+  return (
+    <div>
+      <p>{count}times</p>
+      <button onClick={() => {
+        setCount(count + 1)
+        setTodos([...todos,{id:todos.length + 1,text:'do'}])
+        }}>
+        +1
+      </button>
+      <div>
+      todos:{todos.map(item => <span key={item.id}>{item.text}</span>)}
+      </div>
+    </div>
+  )
+}
+
+const ChatAPI = {
+  subscribeToFriendStatus: (id,fn) => {
+    console.log('subscribe',id, fn);
+    fn({isOnline: true})
+  },
+  unsubscribeFromFriendStatus: (id, fn) => {
+    console.log('unsubscribe',id, fn);
+    fn({isOnline: false})
+  }
+}
+
+function FriendStatus(props) {
+  const [isOnline, setIsOnline] = useState(null)
+
+  function handleStatusChange(status) {
+    setIsOnline(status.isOnline)
+  }
+
+  useEffect(() => {
+    ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange)
+    return () => {
+      ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange)
+    }
+  })
+
+  if(isOnline === null) {
+    return 'Loading...'
+  }
+
+  return isOnline ? 'Online' : 'Offline'
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props)
     let number = 1
     let another = number
-    console.log('compare', number === another);
     this.state = {
       count: 0
     }
@@ -125,19 +187,23 @@ class App extends React.Component {
   }
   componentDidMount() {
     const ele = document.getElementById('grand')
-    console.log('父组件', ele);
   }
   render() {
-    const element = <div>
-      父组件
-      <Mouse />
-    </div>
-    console.log(element);
     return (
-      element
+      <FriendStatus friend={{id: 1}} />
     )
   }
 }
+
+
+
+// function FancyButton(props) {
+//   return (
+//     <button className='FancyButton'>
+//       {props.children}
+//     </button>
+//   )
+// }
 App.propTypes = {
   name: PropTypes.string,
   fn: PropTypes.func.isRequired
