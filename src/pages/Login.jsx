@@ -1,13 +1,14 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import './less/Login.less'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import {RegisterApi} from '../request/api'
+import {LoginApi} from '../request/api'
 
-const Register = () => {
+const Login = () => {
   const onFinish = (vals) => {
-    console.log(vals);
-    RegisterApi(vals).then(re => {
-      console.log(re);
+    LoginApi(vals).then(re => {
+      console.log('====================================');
+      console.log('change',re);
+      console.log('====================================');
     })
   }
   const onFinishFailed = () => {}
@@ -67,4 +68,4 @@ const Register = () => {
   );
 }
 
-export default Register;
+export default Login;

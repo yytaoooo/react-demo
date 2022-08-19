@@ -5,7 +5,7 @@ import App from './App1';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
-import './assets/base.css'
+import './assets/base.less'
 import Router from './router'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
