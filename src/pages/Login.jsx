@@ -2,6 +2,8 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import './less/Login.less'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {LoginApi} from '../request/api'
+import React from "react";
+import {TestContext} from '../App1'
 
 const Login = () => {
   const onFinish = (vals) => {
@@ -14,7 +16,13 @@ const Login = () => {
   const onFinishFailed = () => {}
   return (
     <div className='login'>
+    
       <div className='loginBox'>
+      <div>
+        <TestContext.Consumer>
+          {value => <p>ssss:{value}</p>}
+        </TestContext.Consumer>
+      </div>
         <Form
           name="basic"
           initialValues={{

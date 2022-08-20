@@ -9,6 +9,7 @@ const BaseRouter = () => (
     <Routes>
       <Route path='/' element={<App />}>
         <Route path='/list' element={<List />}></Route>
+        <Route path='/list/:id' element={<List />}></Route>
       </Route>
       <Route path='/register' element={<Register />}></Route>
       <Route path='/login' element={<Login />}></Route>
