@@ -1,7 +1,7 @@
 import { DownOutlined, SmileOutlined, UpOutlined } from '@ant-design/icons';
 import { Dropdown, Menu, Space, Table, Tag, Button } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 import './less/Login.less'
 import { ListApi } from '../request/api'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react'
@@ -146,49 +146,56 @@ const List = () => {
       })
     })
   }, [])
+  console.log('papa',useSearchParams());
+  const [pa] = useSearchParams()
+  console.log('pppp',pa);
+  console.log('1111',pa.keys());
+  for (const iterator of pa.values()) {
+    console.log(iterator);
+  }
   return (
-    <div>
-      visit:{visit ? <h1>true</h1> : <h1>false</h1>}
-      <Dropdown overlay={menu} onVisibleChange={(bool) => {
-        setVisit(bool)
-        contextVal.setTest(contextVal.test + '试试啊')
-      }}>
-        <a onClick={(e) => e.preventDefault()}>
-          <Space>
-            Hover me
-            {visit ? <DownOutlined /> : <UpOutlined />}
-          </Space>
-        </a>
-      </Dropdown>
+    // <div>
+    //   visit:{visit ? <h1>true</h1> : <h1>false</h1>}
+    //   <Dropdown overlay={menu} onVisibleChange={(bool) => {
+    //     setVisit(bool)
+    //     contextVal.setTest(contextVal.test + '试试啊')
+    //   }}>
+    //     <a onClick={(e) => e.preventDefault()}>
+    //       <Space>
+    //         Hover me
+    //         {visit ? <DownOutlined /> : <UpOutlined />}
+    //       </Space>
+    //     </a>
+    //   </Dropdown>
 
-      <div className='father'>
-        <div className='child'>
-          {pagination.total}
-          <Table columns={columns} dataSource={list} rowKey='id' onChange={pageChange} pagination={pagination} />
-        </div>
-      </div>
+    //   <div className='father'>
+    //     <div className='child'>
+    //       {pagination.total}
+    //       <Table columns={columns} dataSource={list} rowKey='id' onChange={pageChange} pagination={pagination} />
+    //     </div>
+    //   </div>
 
-      <div style={{ border: '1px solid #ccc', zIndex: 100 }}>
-        <Toolbar
-          editor={editor}
-          defaultConfig={toolbarConfig}
-          mode="default"
-          style={{ borderBottom: '1px solid #ccc' }}
-        />
-        <Editor
-          defaultConfig={editorConfig}
-          value={html}
-          onCreated={setEditor}
-          onChange={editor => setHtml(editor.getHtml())}
-          mode="default"
-          style={{ height: '500px', overflowY: 'hidden' }}
-        />
-      </div>
-      <div style={{ marginTop: '15px' }}>
-        {html}
-      </div>
-    </div>
-
+    //   <div style={{ border: '1px solid #ccc', zIndex: 100 }}>
+    //     <Toolbar
+    //       editor={editor}
+    //       defaultConfig={toolbarConfig}
+    //       mode="default"
+    //       style={{ borderBottom: '1px solid #ccc' }}
+    //     />
+    //     <Editor
+    //       defaultConfig={editorConfig}
+    //       value={html}
+    //       onCreated={setEditor}
+    //       onChange={editor => setHtml(editor.getHtml())}
+    //       mode="default"
+    //       style={{ height: '500px', overflowY: 'hidden' }}
+    //     />
+    //   </div>
+    //   <div style={{ marginTop: '15px' }}>
+    //     {html}
+    //   </div>
+    // </div>
+    <div>列表</div>
   );
 }
 

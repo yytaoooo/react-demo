@@ -9,8 +9,13 @@ const BaseRouter = () => (
   <Router>
     <Routes>
       <Route path='/' element={<Test />}>
-        <Route path='/list' element={<List />}></Route>
-        <Route path='/list/:id' element={<List />}></Route>
+        {/* <Route path='/list' element={<List />}></Route> */}
+        <Route path='/list' element={<List />}>
+          <Route path=':id' element={<List />}></Route>
+          <Route path='me' element={<List />}>
+            <Route path='taowa' element={<List />}></Route>
+          </Route>
+        </Route>
       </Route>
       <Route path='/register' element={<Register />}></Route>
       <Route path='/login' element={<Login />}></Route>

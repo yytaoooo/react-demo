@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import * as ReactDOM from 'react-dom';
+import {Outlet} from 'react-router-dom'
 function Parent() {
   return <div>parent</div>
 }
@@ -17,17 +18,10 @@ console.log('====================================');
 
 
 const Test = () => {
-  const container = document.getElementById('root')
-  const parentref = useRef(null)
-
-  useEffect(() => {
-    console.log(parentref);
-  })
   return (
     <>
-    {ReactDOM.createPortal(<p><Child /></p>, container)}
-      <Parent ref={parentref} />
       <Parent2 />
+      <Outlet />
     </>
   );
 }
